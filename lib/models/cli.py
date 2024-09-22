@@ -32,6 +32,21 @@ def list_students():
     for student in students:
         print(f"ID: {student.id}, Name: {student.name}, Age:{student.age}, Year: {student.year}")
 
+def is_positive_integer(value):
+    return isinstance(value, int) and value > 0
+
+# Deleting a student from the database.
+def delete_student():
+    student_id = validate_input("Enter student's ID to delete: ", int, condition=is_positive_integer)
+    student = session.query(Student).filter_by(id=student_id).first()
+    if student:
+        session.delete(student)
+        session.commit()
+        print(f"Student {student_id} deleted successfully!")
+    else:
+        print(f"No student found with ID {student_id}.")
+          
+
 
 # Create a new course and save to the database.
 def create_course():
@@ -49,13 +64,27 @@ def list_courses():
     for course in courses:
         print(f"ID: {course.id}, Title: {course.course_title}, Duration: {course.course_duration} hours")
 
+# Deleting a course from the database.
+def delete_course():
+    course_id =validate_input("Enter course ID to delete: ", int, condition=is_positive_integer)
+    course = session.query(Course).filter_by(id=course_id).first()
+    if course:
+        session.delete(course)
+        session.commit()
+        print(f"Course {course_id} deleted successfully!")
+    else:
+        print(f"No course found with ID {course_id}.")
+
+
 # Displays the main menu and handles user options.
 def main_menu():
     options = {
         '1': ('Create Student', create_student),
         '2': ('List Students', list_students),
-        '3': ('Create Course', create_course),
-        '4': ('List Courses', list_courses),
+        '3':('Delete Student', delete_student),
+        '4': ('Create Course', create_course),
+        '5': ('List Courses', list_courses),
+        '6': ('Delete Course', delete_course),
         '0': ('Exit', exit)
     }
 

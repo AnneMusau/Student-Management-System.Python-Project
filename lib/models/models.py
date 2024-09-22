@@ -33,12 +33,6 @@ class Enrollment(Base):
       return f"Enrollment {self.student_id} {self.course_id}"
    
 
-    
-    
-
-
-
-
 engine= create_engine('sqlite:///students_database.db')
 Base.metadata.create_all(engine)
 
