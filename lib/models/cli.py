@@ -20,23 +20,29 @@ def create_student():
     name = input("Enter student's name: ")
     age = validate_input("Enter student's age: ", int, is_positive)
     year = validate_input("Enter student's year: ", int, is_positive)
+    # id = validate_input("Enter student id", int, is_positive)
+
+    #  Create the student object and add it to the session.
     student = Student(name=name, age=age, year=year)
     session.add(student)
     session.commit()
     print(f"Student {name} added successfully!")
-
+ 
 # List all students in the database.
 def list_students():
-    students = session.query(Student).all()
-    print("\List of Students:")
-    for student in students:
-        print(f"ID: {student.id}, Name: {student.name}, Age:{student.age}, Year: {student.year}")
+    students = Student.view_students(session)  # Fetch students from the database
+    if students:
+        for student in students:
+            # Use dot notation to access attributes
+            print(f"ID: {student.id}, Name: {student.name}, Age: {student.age}")
+    else:
+        print("No students found.")
 
 def is_positive_integer(value):
     return isinstance(value, int) and value > 0
 
 # Deleting a student from the database.
-def delete_student():
+def delete_student_by_id():
     student_id = validate_input("Enter student's ID to delete: ", int, condition=is_positive_integer)
     student = session.query(Student).filter_by(id=student_id).first()
     if student:
@@ -52,6 +58,7 @@ def delete_student():
 def create_course():
     course_title = input("Enter course title: ")
     course_duration = validate_input("Enter course duration (hours): ", int, is_positive)
+    #course_id = validate_input("Enter the course id:",int, is_positive )
     course = Course(course_title=course_title, course_duration=course_duration)
     session.add(course)
     session.commit()
@@ -59,13 +66,17 @@ def create_course():
 
 # List all courses in the database.
 def list_courses():
-    courses = session.query(Course).all()
-    print("\List of Courses:")
-    for course in courses:
-        print(f"ID: {course.id}, Title: {course.course_title}, Duration: {course.course_duration} hours")
+    courses = Course.view_courses(session)  # Fetch courses from the database
+    if courses:
+        for course in courses:
+            # Use dot notation to access attributes
+            print(f"ID: {course.id}, Title: {course.course_title}, Duration: {course.course_duration}")
+    else:
+        print("No courses found.")
+
 
 # Deleting a course from the database.
-def delete_course():
+def delete_course_by_id():
     course_id =validate_input("Enter course ID to delete: ", int, condition=is_positive_integer)
     course = session.query(Course).filter_by(id=course_id).first()
     if course:
@@ -79,13 +90,13 @@ def delete_course():
 # Displays the main menu and handles user options.
 def main_menu():
     options = {
-        '1': ('Create Student', create_student),
-        '2': ('List Students', list_students),
-        '3':('Delete Student', delete_student),
-        '4': ('Create Course', create_course),
-        '5': ('List Courses', list_courses),
-        '6': ('Delete Course', delete_course),
-        '0': ('Exit', exit)
+         '1': ('Create Student', create_student),
+    '2': ('List Students', list_students),
+    '3': ('Delete Student', delete_student_by_id),
+    '4': ('Create Course', create_course),
+    '5': ('List Courses', list_courses),
+    '6': ('Delete Course', delete_course_by_id),
+    '0': ('Exit', exit)
     }
 
     while True:

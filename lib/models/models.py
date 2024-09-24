@@ -13,6 +13,11 @@ class Student(Base):
     def __repr__(self):
         return f"Student {self.name} {self.age} {self.year}"
     
+    @classmethod
+    def view_students(cls, session):
+        # Query to fetch all students
+        return session.query(cls).all()
+    
 class Course(Base):
     __tablename__='courses'
     id= Column(Integer(), primary_key=True)
@@ -22,6 +27,11 @@ class Course(Base):
 
     def __repr__(self):
      return f"Course {self.course_title} {self.course_duration}"
+    
+    @classmethod
+    def view_courses(cls, session):
+        # Query to fetch all courses
+        return session.query(cls).all()
 
 class Enrollment(Base):
    __tablename__='enrollments'

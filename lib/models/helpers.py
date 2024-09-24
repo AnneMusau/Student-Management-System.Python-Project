@@ -29,7 +29,7 @@ def Update_student():
     else: 
         print("Failed to update!")
 
-def Delete_student():
+def Delete_student_id():
     student_id = int(input("Enter the Student's ID"))
     student = Student.find_by_id(student_id)
     if student:
@@ -48,8 +48,11 @@ def Find_student_by_name():
         
 def List_students():
      students = Student.view_students()
-     for student in students:
-          print(student)
+     if Student:
+          print("Listing students...")
+     else:
+           print("No list found!")
+
     
 
 
@@ -76,7 +79,7 @@ def Update_course():
             print("Failed to update! Course not found!")
 
     
-def Delete_course():
+def Delete_course_by_id():
         course_id = int(input("Enter the course ID: "))
         course = Course.find_by_id(course_id)
         if course:
@@ -96,7 +99,7 @@ def Find_course_by_title():
 def List_course():
      courses = Course.get_all()
      for course in courses:
-          print(course) 
+          print("Listing course") 
      
 def Create_enrollment():
     Enrollment.create_table()
